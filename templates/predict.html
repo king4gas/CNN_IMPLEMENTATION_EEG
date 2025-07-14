@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+
+{% block title %}Prediction{% endblock %}
+
+{% block content %}
+<style>
+    .aksara-img {
+        display: block;
+        margin: 20px auto 10px;
+        width: 200px;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid #ccc;
+    }
+
+    .container {
+        background: #fff;
+        padding: 30px 25px;
+        max-width: 500px;
+        margin: 40px auto;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 22px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 14px;
+        background-color: #00b894;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 10px 0;
+        width: 100%;
+        box-sizing: border-box;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn:hover {
+        background-color: #55efc4;
+    }
+
+    input[type="file"] {
+        padding: 8px;
+        width: 100%;
+        background: #f1f2f6;
+        border: 1px solid #dcdde1;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        font-size: 13px;
+        box-sizing: border-box;
+    }
+
+    .result-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: #2c3e50;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .result.error {
+        color: #e74c3c;
+        margin-top: 20px;
+    }
+
+    #spinner {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .loader {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #00b894;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 0.9s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<div class="container">
+    <h1>Predict EEG Data</h1>
+
+    {% if result %}
+        <img class="aksara-img" src="{{ result.img }}" alt="Aksara Dominan">
+        <div class="result-text">{{ result.text }}</div>
+
+        <a href="{{ result.download_link }}" class="btn">Download Excel Prediksi</a>
+
+        <form method="get">
+            <button type="submit" class="btn">Prediksi Lagi</button>
+        </form>
+
+    {% elif error %}
+        <div class="result error">{{ error }}</div>
+
+    {% else %}
+        <form method="POST" enctype="multipart/form-data" id="predict-form">
+            <p style="text-align: left;">Upload EEG File (.mat):</p>
+            <input type="file" name="file" accept=".mat" required>
+
+            <p style="text-align: left;">Upload Model (.h5):</p>
+            <input type="file" name="models" accept=".h5" multiple required>
+
+            <button type="submit" class="btn">Start Prediction</button>
+        </form>
+
+        <div id="spinner">
+            <div class="loader"></div>
+            <p style="margin-top:10px;">Processing...</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    const form = document.getElementById("predict-form");
+    const spinner = document.getElementById("spinner");
+
+    if (form) {
+        form.addEventListener("submit", function () {
+            form.style.display = "none";
+            spinner.style.display = "block";
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block title %}EEG Balinese Character Classifier{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #f1f2f6, #dff9fb);
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .hero {
+        padding: 30px 20px 10px;
+    }
+
+    .hero h1 {
+        font-size: 20px;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .hero p {
+        font-size: 14px;
+        color: #636e72;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .cards {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 40px auto;
+        gap: 50px;
+        padding: 0 10px;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 16px;
+        padding: 20px 18px;
+        width: 220px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+    }
+
+    .card img {
+        width: 50px;
+        margin-bottom: 15px;
+    }
+
+    .card h3 {
+        font-size: 16px;
+        color: #2d3436;
+        margin-bottom: 8px;
+    }
+
+    .card p {
+        font-size: 13px;
+        color: #636e72;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero">
+    <h1>Prediction of Balinese Vowel Characters Using Convolutional Neural Networks (CNN)</h1>
+    <p>The project uses CNN to predict Balinese vowel characters based on EEG signals, combining brain activity with machine learning for character recognition.</p>
+</div>
+
+<!-- Cards -->
+<div class="cards">
+    <!-- Preprocessing -->
+    <a href="/preprocess_1d" class="card">
+        <img src="https://img.icons8.com/color/96/data-configuration.png" alt="Preprocess Icon">
+        <h3>Pre Processing Data</h3>
+        <p>Processes raw data into 1D and 3D features ready for model training through filtering, feature extraction, and spatial mapping.</p>
+    </a>
+
+    <!-- Training -->
+    <a href="/train" class="card">
+        <img src="https://img.icons8.com/color/96/000000/brain.png" alt="Training Icon">
+        <h3>Training Model</h3>
+        <p>Train the model using the preprocessed EEG data to develop a predictive model for analysis and tasks.</p>
+    </a>
+
+    <!-- Prediction -->
+    <a href="/predict" class="card">
+        <img src="https://img.icons8.com/color/96/000000/artificial-intelligence.png" alt="Prediction Icon">
+        <h3>Prediction</h3>
+        <p>Prediction involves using the trained model to make forecasts of unseen EEG data based on learned patterns.</p>
+    </a>
+</div>
+{% endblock %}

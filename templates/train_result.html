@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block title %}Training Results{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(145deg, #f1f2f6, #dff9fb);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 900px;
+        background: #ffffff;
+        margin: 60px auto;
+        padding: 40px 50px;
+        border-radius: 20px;
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 30px;
+        color: #2d3436;
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #636e72;
+        margin-bottom: 30px;
+    }
+
+    .download-btn {
+        background-color: #0984e3;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 15px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .download-btn:hover {
+        background-color: #74b9ff;
+    }
+
+    table.metrics-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 40px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    .metrics-table thead {
+        background-color: #00b894;
+        color: white;
+    }
+
+    .metrics-table th, .metrics-table td {
+        padding: 14px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .metrics-table tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .metrics-table tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    h2 {
+        font-size: 22px;
+        color: #2c3e50;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+
+    .metrics-summary {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .metrics-summary li {
+        list-style: none;
+        background: #dfe6e9;
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #2d3436;
+        min-width: 120px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+</style>
+
+<div class="container">
+    <h1>Training Selesai!</h1>
+    <p>Download seluruh model dan metrik hasil pelatihan sebagai file <strong>.rar</strong>.</p>
+
+    <a href="{{ url_for('static', filename='models/all_models_and_metrics.rar') }}" class="download-btn" download>
+        📦 Download All Models (.rar)
+    </a>
+
+    <h2>📊 Per-Fold Metrics</h2>
+    <table class="metrics-table">
+        <thead>
+            <tr>
+                <th>Fold</th>
+                <th>Accuracy (%)</th>
+                <th>Precision (%)</th>
+                <th>Recall (%)</th>
+                <th>F1-Score (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in metrics_df %}
+            <tr>
+                <td>{{ row.Fold }}</td>
+                <td>{{ row.Accuracy }}</td>
+                <td>{{ row.Precision }}</td>
+                <td>{{ row.Recall }}</td>
+                <td>{{ row['F1-Score'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>📈 Rata-rata Seluruh Fold</h2>
+    <ul class="metrics-summary">
+        <li>Accuracy: {{ averages.Accuracy }}%</li>
+        <li>Precision: {{ averages.Precision }}%</li>
+        <li>Recall: {{ averages.Recall }}%</li>
+        <li>F1-Score: {{ averages['F1-Score'] }}%</li>
+    </ul>
+</div>
+{% endblock %}
